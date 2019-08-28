@@ -93,20 +93,74 @@ def get_user_simple_list(access_token, dept_id):
     """
     获取部门用户信息
     :return:
+    {
+    "errcode": 0, # 返回码
+    "errmsg": "ok",  # 对返回码的文本描述内容
+    "hasMore": false, # 在分页查询时返回，代表是否还有下一页更多数据
+    "userlist": [
         {
-        'errcode': 0,  # 返回码
-        'department': [{
-            'createDeptGroup': True, # 是否同步创建一个关联此部门的企业群，true表示是，false表示不是
-            'name': '厦门OpenHappy科技有限公司', # 部门名称
-            'id': 1,  # 部门id
-            'autoAddUser': True
-        }],
-        'errmsg': 'ok'  # 对返回码的文本描述内容  # 当群已经创建后，是否有新人加入部门会自动加入该群, true表示是，false表示不是
+            "userid": "zhangsan", # 员工id
+            "name": "张三" # 成员名称
+        }
+    ]
     }
     """
     url = 'https://oapi.dingtalk.com/user/simplelist?access_token={0}&department_id={1}'.format(
         access_token, dept_id
     )
+    r = requests.get(url)
+    str_json = json.loads(r.text)
+    return str_json
+
+
+def get_user_department_list(access_token, department_id):
+    """
+    获取部门用户详情
+    https://oapi.dingtalk.com/user/listbypage?access_token=ACCESS_TOKEN&department_id=1
+    :return:
+    {
+    "errcode": 0,
+    "errmsg": "ok",
+    "hasMore": false,
+    "userlist":[
+        {
+            "userid": "zhangsan", # 员工在当前企业内的唯一标识，也称staffId。可由企业在创建时指定，并代表一定含义比如工号，创建后不可修改
+            "unionid": "PiiiPyQqBNBii0HnCJ3zljcuAiEiE", #员工在当前开发者企业账号范围内的唯一标识，系统生成，固定值，不会改变
+            "mobile": "1xxxxxxxxxx", 
+            "tel" : "xxxx-xxxxxxxx",
+            "workPlace" :"",
+            "remark" : "",
+            "order" : 1,
+            "isAdmin": true,
+            "isBoss": false,
+            "isHide": true,
+            "isLeader": true,
+            "name": "张三",
+            "active": true,
+            "department": [1, 2],
+            "position": "工程师",
+            "email": "test@xxx.com",
+            "avatar":  "xxx",
+            "jobnumber": "xxx",
+            "extattr": {
+                "爱好":"旅游",
+                "年龄":"24"
+                    }
+            }
+        ]
+    }
+    request.setDepartmentId(1L);
+    request.setOffset(0L);
+    request.setSize(10L);
+    request.setOrder("entry_desc");
+    request.setHttpMethod("GET");
+    OapiUserListbypageResponse execute = client.execute(request,accessToken);
+    """
+    url = 'https://oapi.dingtalk.com/user/listbypage?access_token={0}&department_id={1}' \
+          '&offset={2}&size={3}'.format(
+        access_token, department_id, 0, 100
+    )
+    print(url)
     r = requests.get(url)
     str_json = json.loads(r.text)
     return str_json
@@ -247,5 +301,7 @@ if __name__ == '__main__':
     # get_list_attendance(access_token, user_ids)
     # str_jsons = get_user_simple_list(access_token, 1)
     # print(str_jsons)
-    k = get_dept_list(access_token)
-    print(k)
+    # k = get_dept_list(access_token)
+    # print(k)
+    # s = get_user_department_list(access_token, 1)
+    # print(s)
