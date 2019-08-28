@@ -126,22 +126,22 @@ def get_user_department_list(access_token, department_id):
         {
             "userid": "zhangsan", # 员工在当前企业内的唯一标识，也称staffId。可由企业在创建时指定，并代表一定含义比如工号，创建后不可修改
             "unionid": "PiiiPyQqBNBii0HnCJ3zljcuAiEiE", #员工在当前开发者企业账号范围内的唯一标识，系统生成，固定值，不会改变
-            "mobile": "1xxxxxxxxxx", 
-            "tel" : "xxxx-xxxxxxxx",
-            "workPlace" :"",
-            "remark" : "",
-            "order" : 1,
-            "isAdmin": true,
-            "isBoss": false,
-            "isHide": true,
-            "isLeader": true,
-            "name": "张三",
-            "active": true,
-            "department": [1, 2],
-            "position": "工程师",
-            "email": "test@xxx.com",
-            "avatar":  "xxx",
-            "jobnumber": "xxx",
+            "mobile": "1xxxxxxxxxx",  # 手机号
+            "tel" : "xxxx-xxxxxxxx", # 分机号
+            "workPlace" :"", # 办公地点
+            "remark" : "", # 备注
+            "order" : 1, # 表示人员在此部门中的排序，列表是按order的倒序排列输出的，即从大到小排列输出的
+            "isAdmin": true,  #是否是企业的管理员，true表示是，false表示不是
+            "isBoss": false, # 是否为企业的老板，true表示是，false表示不是
+            "isHide": true, # 是否隐藏号码，true表示是，false表示不是
+            "isLeader": true, # 	是否是部门的主管，true表示是，false表示不是
+            "name": "张三", # 成员名称
+            "active": true, # 表示该用户是否激活了钉钉
+            "department": [1, 2], # 成员所属部门id列表
+            "position": "工程师", # 职位信息
+            "email": "test@xxx.com", # 员工的邮箱
+            "avatar":  "xxx", # 头像url
+            "jobnumber": "xxx", # 员工工号
             "extattr": {
                 "爱好":"旅游",
                 "年龄":"24"
