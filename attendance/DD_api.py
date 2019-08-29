@@ -6,27 +6,21 @@ import json
 from datetime import date, datetime
 
 import requests
-
 import settings
+
+from request_api import RequestAPI
+from db import AccessToken
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from Call_API import ApiClient
 
 
-def get_access_token():
-    """
-    获取access_token
-    :return:
-    {
-    "errcode": 0,
-    "errmsg": "ok",
-    "access_token": "fw8ef8we8f76e6f7s8df8s"
-    }
-    """
-    url = 'https://oapi.dingtalk.com/gettoken?appkey={0}&appsecret={1}'.format(
-        settings.APP_KEY, settings.APP_SECRET)
-    r = requests.get(url)
-    str_json = json.loads(r.text)
-    access_token = str_json['access_token']
-    return access_token
+def select_access_token():
+    engine = create_engine(settings.MYSQL_CONNECT)
+    db_session = sessionmaker(bind=engine)
+    session = db_session()
+    token = session.query(AccessToken).filter(AccessToken.id == '1').one()
+    return token.access_token
 
 
 def get_dept_list_ids(access_token, dept_id):
@@ -158,8 +152,7 @@ def get_user_department_list(access_token, department_id):
     """
     url = 'https://oapi.dingtalk.com/user/listbypage?access_token={0}&department_id={1}' \
           '&offset={2}&size={3}'.format(
-        access_token, department_id, 0, 100
-    )
+        access_token, department_id, 0, 100)
     print(url)
     r = requests.get(url)
     str_json = json.loads(r.text)
@@ -292,7 +285,7 @@ def get_list_attendance(access_token, user_ids):
 
 
 if __name__ == '__main__':
-    access_token = 'ffd08bd5388a306d9e67d2c982a6f0a6'
+    access_token = select_access_token()
     # s = get_access_token()
     # print(s)
     # str_jsons = get_dept_member(access_token, 1)
@@ -303,5 +296,5 @@ if __name__ == '__main__':
     # print(str_jsons)
     # k = get_dept_list(access_token)
     # print(k)
-    # s = get_user_department_list(access_token, 1)
-    # print(s)
+    s = get_user_department_list(access_token, 1)
+    print(s)
